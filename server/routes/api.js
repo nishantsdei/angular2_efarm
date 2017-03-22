@@ -58,7 +58,15 @@ router.get('/', (req, res) => {
 *           type: object
 */
 router.post('/login', function(req, res) {
-    res.json(req.body);
+
+    var username = req.body.username;
+   	var password = req.body.password;
+
+    if( (username == 'admin' && password == '12345')){
+        res.json({message: "login Successful", login: true});
+    }else{
+        res.json({message: "login Error", login: false})
+    }
 });
 
 module.exports = router;

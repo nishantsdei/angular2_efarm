@@ -3,6 +3,7 @@ const express    = require('express');
 const path       = require('path');
 const http       = require('http');
 const bodyParser = require('body-parser');
+const morgan     = require('morgan');
 
 /* Swagger Configuration */
 const swaggerUi       = require('swagger-ui-express');
@@ -19,6 +20,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
+
+// Log requests to console
+app.use(morgan('dev')); 
 
 // Set our api routes
 app.use('/api', api);
