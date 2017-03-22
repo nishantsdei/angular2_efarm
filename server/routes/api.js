@@ -69,4 +69,44 @@ router.post('/login', function(req, res) {
     }
 });
 
+
+
+/**
+* @swagger
+* /register:
+*   post:
+*     description: register to the application
+*     tags: [Authentication]
+*     produces:
+*       - application/json
+*     parameters:
+*       - name: username
+*         description: Username to use.
+*         in: formData
+*         required: true
+*         type: string
+
+*       - name: password
+*         description: password to use.
+*         in: formData
+*         required: true
+*         type: string
+*     responses:
+*       200:
+*         description: register
+*         schema:
+*           type: object
+*/
+router.post('/register', function(req, res) {
+
+    var username = req.body.username;
+    var password = req.body.password;
+
+    if( (username == 'admin')){
+        res.json({message: "username already registered.", data: req.body});
+    }else{
+        res.json({message: "user registered Successfully.", data: req.body});
+    }    
+});
+
 module.exports = router;
