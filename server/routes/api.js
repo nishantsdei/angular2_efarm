@@ -59,13 +59,13 @@ router.get('/', (req, res) => {
 */
 router.post('/login', function(req, res) {
 
-    var username = req.body.username;
+    var email = req.body.email;
    	var password = req.body.password;
 
-    if( (username == 'admin' && password == '12345')){
-        res.json({message: "login Successful", login: true});
+    if( (email == 'admin' && password == '12345')){
+        res.status(200).send({message: "login Successful", login: true});
     }else{
-        res.json({message: "login Error", login: false})
+        res.status(400).send({message: "login Error", login: false})
     }
 });
 

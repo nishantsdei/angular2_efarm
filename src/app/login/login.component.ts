@@ -17,10 +17,14 @@ export class LoginComponent implements OnInit {
   login(){
     this.loginService.login(this.user)
                            .subscribe(
-                               comments => this.router.navigate(['/dashboard']),
+                               res => {
+                                 console.log("response",res)
+                                 localStorage.setItem("user",JSON.stringify(res));
+                                 this.router.navigate(['/dashboard']);
+                               },
                                 err => {
                                     console.log("error",err);
-                                    this.router.navigate(['/dashboard']);
+                                    this.router.navigate(['/signup']);
                                 });
   }
 

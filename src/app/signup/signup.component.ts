@@ -18,7 +18,7 @@ export class SignupComponent implements OnInit {
   signup(){
     this._signupService.signup(this.user)
                            .subscribe(
-                               comments => this.router.navigate(['/login']),
+                               comments => this.router.navigate(['/forgot-password']),
                                 err => {
                                     console.log("error",err);
                                     this.router.navigate(['/login']);
