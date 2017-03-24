@@ -11,17 +11,19 @@ import { Router } from '@angular/router';
 export class SignupComponent implements OnInit {
   private user = {};
   private  comments;
+  private errMessage = {};
 
   constructor(private router : Router,private _signupService: SignupService) { 
   }
 
   signup(){
+    this.errMessage = {};
     this._signupService.signup(this.user)
                            .subscribe(
-                               comments => this.router.navigate(['/forgot-password']),
-                                err => {
-                                    console.log("error",err);
-                                    this.router.navigate(['/login']);
+                                res => {
+                                 this.router.navigate(['/login']);
+                                },err => {
+                                    this.errMessage = JSON.parse(err._body);
                                 });
   }
 

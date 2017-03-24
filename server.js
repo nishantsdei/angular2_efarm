@@ -4,6 +4,8 @@ const path       = require('path');
 const http       = require('http');
 const bodyParser = require('body-parser');
 const morgan     = require('morgan');
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/farmx');
 
 /* Swagger Configuration */
 const swaggerUi       = require('swagger-ui-express');

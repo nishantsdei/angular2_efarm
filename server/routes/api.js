@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+var userDB = require('../models/user.js');
 
 /**
 * @swagger
@@ -58,16 +59,26 @@ router.get('/', (req, res) => {
 *           type: object
 */
 router.post('/login', function(req, res) {
+    try {
+        var email = req.body.username;
+        var password = req.body.password;
+        var filter = {
+            email: email,
+            password: password
+        }
+        userDB.findOne(filter, function(err, user) {
+            if (!user) {
+                return res.status(400).send({ "message": "EmailID or passsword not matched" });
+            } else {
+                return res.status(200).send(user);
+            }
+        })
+    } catch (err) {
 
-    var email = req.body.email;
-   	var password = req.body.password;
-
-    if( (email == 'admin' && password == '12345')){
-        res.status(200).send({message: "login Successful", login: true});
-    }else{
-        res.status(400).send({message: "login Error", login: false})
     }
 });
+
+
 
 
 
@@ -98,15 +109,28 @@ router.post('/login', function(req, res) {
 *           type: object
 */
 router.post('/register', function(req, res) {
-
-    var username = req.body.username;
-    var password = req.body.password;
-
-    if( (username == 'admin')){
-        res.json({message: "username already registered.", data: req.body});
-    }else{
-        res.json({message: "user registered Successfully.", data: req.body});
-    }    
+    try {
+        const body = req.body;
+        if (!body.firstName) return res.status(400).send({ "message": "First name is required" });
+        if (!body.lastName) return res.status(400).send({ "message": "Last name is required" });
+        if (!body.email) return res.status(400).send({ "message": "Email is required" });
+        if (!body.password) return res.status(400).send({ "message": "Password is required" });
+        if (body.password != body.confirmPassword) return res.status(400).send({ "message": "Password and confirm Password Not Matched" });
+        userDB.findOne({ "email": body.email }, function(err, user) {
+            if (user) {
+                return res.status(400).send({ "message": "User already exists" });
+            } else {
+                userDB.create(body, function(err, result) {
+                    if (err) return res.status(401).send(err);
+                    res.status(200).send(result);
+                })
+            }
+        })
+    } catch (err) {
+        console.log("err", err)
+    }
 });
+
+
 
 module.exports = router;
