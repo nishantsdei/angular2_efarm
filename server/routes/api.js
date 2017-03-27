@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 var userDB = require('../models/user.js');
+var bcrypt = require('bcrypt');
 
 /**
 * @swagger
@@ -63,14 +64,15 @@ router.post('/login', function(req, res) {
         var email = req.body.username;
         var password = req.body.password;
         var filter = {
-            email: email,
-            password: password
+            email: email        
         }
         userDB.findOne(filter, function(err, user) {
             if (!user) {
-                return res.status(400).send({ "message": "EmailID or passsword not matched" });
-            } else {
+                return res.status(400).send({ "message": "EmailID not found" });
+            } else if(bcrypt.compareSync(password, user.password)) {
                 return res.status(200).send(user);
+            } else {
+            	return res.status(400).send({ "message": "Password not Matched" });
             }
         })
     } catch (err) {

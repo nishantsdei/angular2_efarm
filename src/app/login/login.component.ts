@@ -8,13 +8,15 @@ import { Router } from '@angular/router';
   providers: [LoginService]
 })
 export class LoginComponent implements OnInit {
-  private user = {}
+  private user = {};
+  private errMessage = {};
   constructor(private router : Router,private loginService: LoginService) { }
 
   ngOnInit() {
   }
 
   login(){
+    this.errMessage = {};
     this.loginService.login(this.user)
                            .subscribe(
                                res => {
@@ -23,8 +25,7 @@ export class LoginComponent implements OnInit {
                                  this.router.navigate(['/dashboard']);
                                },
                                 err => {
-                                    console.log("error",err);
-                                    this.router.navigate(['/signup']);
+                                    this.errMessage = JSON.parse(err._body);
                                 });
   }
 

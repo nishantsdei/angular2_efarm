@@ -3,17 +3,15 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Injectable()
-export class LoginRouteGuard implements CanActivate {
+export class ActiveRouteGuard implements CanActivate {
 
-  constructor(private router : Router) {
-    console.log("In login-route-guard file");
-  }
+  constructor(private router : Router) { }
 
   canActivate() {
     if(localStorage.getItem("user")) {
-    	this.router.navigate(['/dashboard']);
+      return true;
     } else {
-    	return true;
+      this.router.navigate(['/login']);
     }
   }
 }

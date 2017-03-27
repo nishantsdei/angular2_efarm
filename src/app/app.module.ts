@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginRouteGuard } from './can-activate-guard';
+import { ActiveRouteGuard } from './can-deactivate-guard';
 
 import { AppComponent } from './app.component';
 import { SignupComponent } from './signup/signup.component';
@@ -16,7 +17,7 @@ const appRoutes: Routes = [
   { path: '', component: LoginComponent, canActivate: [LoginRouteGuard] },
   { path: 'signup', component: SignupComponent },
   { path: 'login', component: LoginComponent, canActivate: [LoginRouteGuard] },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [ActiveRouteGuard] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
 ];
 
@@ -34,7 +35,7 @@ const appRoutes: Routes = [
     HttpModule,
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [LoginRouteGuard],
+  providers: [LoginRouteGuard,ActiveRouteGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
